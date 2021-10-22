@@ -367,6 +367,7 @@ x
               if(data['status'] == "Available"){
                 // alert("1");
                 $('#save').prop('disabled', false);
+                $('#toko').prop('disabled', false);
                 $("#toko").val('');
 
                 $('#save').on('click', function(){
@@ -390,8 +391,8 @@ x
                           success: function(dataResult){
                             var dataResult = JSON.parse(dataResult);
                             if(dataResult.statusCode==200){
-                              $('#myModal').modal().hide();
-                              alert('Data updated successfully !');
+                              // $('#myModal').modal().hide();
+                              toastr.success('Data berhasil dibooking.')
                               // location.reload();					
                             }
                           }
