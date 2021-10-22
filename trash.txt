@@ -1,0 +1,150 @@
+
+<?php 
+	session_start();
+ 
+	if($_SESSION['level']==""){
+		header("location:index.php?pesan=gagal");
+	}
+ 
+	?>
+
+<?php 
+// mengaktifkan session php
+session_start();
+ 
+// menghapus semua session
+session_destroy();
+ 
+// mengalihkan halaman ke halaman login
+header("location:index.php");
+?>
+
+
+else if($data['id_roles']=="3"){
+			$_SESSION['username'] = $data['name'];
+			$_SESSION['status_login'] = 'login';
+			
+			// direct to user dashboard
+			header("location:index.php");
+
+		}
+
+
+////////////////// start register action //////////////////
+if (isset( $_POST["register"])){
+	$username = $_POST['username'];
+	$password = $_POST['password'];
+	$password2 = $_POST['password2'];
+	$name = $_POST['name'];
+	$email = $_POST['email'];
+
+	$query = mysqli_query($conn,"SELECT * FROM users WHERE username='$username' AND password='$password'");
+	$check = mysqli_num_rows($query);
+
+	if($check > 0){
+		echo "<script>alert('Username and Password already exist!'); window.location.href='register.php';</script>";
+	}else{
+		if ($password !== $password2){
+			echo "<script>alert('Password does not match!'); window.location.href='register.php';</script>";
+		}else{
+			$password = password_hash($password, PASSWORD_DEFAULT);
+	
+			$result=mysqli_query($conn, "INSERT INTO users(id_roles, username, password, email, name) VALUE('3','$username','$password','$email','$name')");
+			header("location:register.php");
+		}
+	}
+}
+////////////////// end register action //////////////////
+
+
+<table id="tbldata" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th colspan="4" style="text-align:center;">WAC PUSAT</th>
+                        <th colspan="3" style="text-align:center;">WAC AREA</th>
+                    </tr>
+                    <tr>
+                        <th>Customer Number</th>
+                        <th>Nama Customer</th>
+                        <th>Kelurahan</th>
+                        <th>Kota</th>
+                        <th>Status</th>
+                        <th>Payment Status</th>
+                        <th>Status Transaksi</th>
+                    </tr>
+                </thead>
+            </table>
+
+			<?php
+                            $kota=  $_SESSION['kota'];
+                            include '../../connection.php';
+                            $res = $conn->query("SELECT * FROM cust_order WHERE kota='$kota' ORDER BY id_customer DESC");
+                            while($row = $res->fetch_assoc()){
+                                echo '
+                                <tr>
+                                    <td>'.$row['id_customer'].'</td>
+                                    <td>'.$row['nama'].'</td>
+                                    <td>'.$row['kelurahan'].'</td>
+                                    <td>'.$row['kota'].'</td>
+                                    <td>'.$row['status'].'</td>
+                                    <td>'.$row['payment_status'].'</td>
+                                    <td>'.$row['transaction_status'].'</td>
+                                </tr>
+                                ';
+                            }
+                        ?>
+
+// $("#example1").DataTable({
+        // "responsive": true, 
+        // "lengthChange": false, 
+        // "autoWidth": false,
+        // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+        // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+        // $('#example1').DataTable({
+        //     "responsive": true,
+        //     "autoWidth": false,
+        //     "lengthChange": false, 
+        //     // "order":["desc"],
+        //     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+        // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+
+$('#example1').dataTable({
+          // "responsive": true,
+          // "autoWidth": false,
+          "lengthChange": false,
+          "order":[[0, "desc"]],
+          "processing": true,
+          "ajax": "datatable.php",
+          "columns": [
+              {data: 'id_customer'},
+              {data: 'nama'},
+              {data: 'kelurahan'},
+              {data: 'kota'},
+              {data: 'status'},
+              {data: 'payment_status'},
+              {data: 'transaction_status'}
+          ]
+        });
+
+        var table = $('#example1').DataTable();
+        // setInterval( function () {
+        //     table.ajax.reload( null, false ); // page not reload but data in datatable auto reload in 3 seconds
+        // }, 3000 );
+
+        $('#example1 tbody').on('click', 'tr', function () {
+            //console.log(table.row(this).data());
+            $(".modal-body div span").text("");
+            $(".username span").text(table.row(this).data()[0]);
+            $(".position span").text(table.row(this).data()[1]);
+            $(".office span").text(table.row(this).data()[2]);
+            $(".age span").text(table.row(this).data()[3]);
+            $(".date span").text(table.row(this).data()[4]);
+            $(".salary span").text(table.row(this).data()[5]);
+            $("#myModal").modal("show");
+        });
+
+        $("#toko").on("input", function() {
+          alert($(this).val()); 
+        });        
