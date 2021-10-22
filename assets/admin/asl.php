@@ -333,8 +333,18 @@ x
       }); 
       $("input[type='hidden']").bind("change", function(){
           // alert($(this).val()); 
-          // var idcust = $(this).val();
-          
+          var idcust = $(this).val();
+          $.ajax({
+            url: 'ajaxrespon.php',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+              'id_customer': idcust
+            },
+            success: function (data) {
+              $("#nama").val(data['nama']);
+            }
+          });
       });   
   });
 </script>
