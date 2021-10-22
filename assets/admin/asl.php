@@ -201,7 +201,7 @@
                               <form  action="" method="POST">
                                     <div class="form-group">
                                         <label for="nama">Nama</label>
-                                        <input type="text" name="idcust" id="idcust">
+                                        <input type="hidden" name="idcust" id="idcust">
                                         <input type="text" name="nama" class="form-control" id="nama" readonly>
                                     </div>
                                     <div class="form-group">
@@ -330,39 +330,12 @@ x
           $("#idcust").val(id).trigger("change");
           $("#myModal").modal("show");
           
-          $("input[type='hidden']").bind("change", function(){
-            // alert($(this).val()); 
-            $.ajax({
-              type: "POST",
-              url: "detail_datatable.php",
-              data: {id : $(this).val()}, // data to be sent to the process file
-              dataType: "json",
-              beforeSend: function(e) {
-                  if(e && e.overrideMimeType) {
-                      e.overrideMimeType("application/json;charset=UTF-8");
-                  }
-              },
-              success: function(response){ // When the submission process is successful
-                if(response.status == "success"){ // If the content of the status array is success
-                  $("#nama").val(response.nama); 
-                  $("#notelp").val(response.notelp); 
-                  $("#alamat").val(response.alamat); 
-                  $("#kecamatan").val(response.kecamatan);
-                  $("#kota").val(response.kota);
-                  $("#type").val(response.type); 
-                  $("#warna").val(response.warna); 
-                  $("#opsi").val(response.opsi);
-                  // $("#status").val(response.status);
-                }else{ // If the contents of the status array are failed
-                  alert("undefined");
-                }
-              },
-                error: function (xhr, ajaxOptions, thrownError) { // When there is an error
-                  alert(xhr.responseText);
-                }
-            });
-          });   
       }); 
+      $("input[type='hidden']").bind("change", function(){
+          // alert($(this).val()); 
+          // var idcust = $(this).val();
+          
+      });   
   });
 </script>
 </body>
