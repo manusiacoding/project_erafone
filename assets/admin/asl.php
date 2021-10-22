@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
     <style>
       tr:hover{
         cursor: pointer;
@@ -234,13 +235,14 @@
                                         <input type="text" name="opsi" class="form-control" id="opsi" readonly>
                                     </div>
                                     <div class="form-group">
+                                        <!-- <input type="text" name="status" id="status"> -->
                                         <label for="toko">Nama Toko</label>
                                         <input type="text" name="toko" class="form-control" id="toko">
                                     </div>
                               </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary">Booking</button>
+                                <button type="button" class="btn btn-primary swalDefaultError" id="save">Booking</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
                         </div>
@@ -293,7 +295,9 @@ x
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.js"></script>
 
-<!-- PAGE PLUGINS -->
+<!-- Toast PLUGINS -->
+<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="plugins/toastr/toastr.min.js"></script>
 <!-- jQuery Mapael -->
 <script src="plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
 <script src="plugins/raphael/raphael.min.js"></script>
@@ -303,7 +307,16 @@ x
 <script src="plugins/chart.js/Chart.min.js"></script>
 <script>
   jQuery(document).ready(function($){
+      var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000
+      });
+
       $('#example1').DataTable({
+          // "responsive": true,
+          // "autoWidth": true,
           "order":[[0, "desc"]],
           "serverside": 'true',
           "lengthChange": false,
@@ -317,6 +330,7 @@ x
               {data: 'status'},
               {data: 'payment_status'},
               {data: 'transaction_status'}
+              // toastr.error('Tidak bisa booking karena status order telah di konfirmasi.')
           ]
       });
       var table = $('#example1').DataTable();
@@ -329,9 +343,8 @@ x
           
           $("#idcust").val(id).trigger("change");
           $("#myModal").modal("show");
-          
       }); 
-      $("input[type='hidden']").bind("change", function(){
+      $("#idcust").bind("change", function(){
           // alert($(this).val()); 
           var idcust = $(this).val();
           $.ajax({
@@ -343,9 +356,28 @@ x
             },
             success: function (data) {
               $("#nama").val(data['nama']);
+              $("#notelp").val(data['notelp']);
+              $("#alamat").val(data['alamat']);
+              $("#kecamatan").val(data['kecamatan']);
+              $("#kota").val(data['kota']);
+              $("#type").val(data['type_produk']);
+              $("#warna").val(data['warna']);
+              $("#opsi").val(data['ops_pembayaran']);
+
+              if(data['status'] == "Available"){
+                // alert("1");
+                $('#save').prop('disabled', false);
+                $("#toko").val('');
+              }else{
+                // alert("2");
+                toastr.error('Tidak bisa booking karena status booking telah dikonfirmasi.')
+                $('#save').prop('disabled', true);
+                $('#toko').prop('disabled', true);
+                $("#toko").val(data['nama_toko']);
+              }
             }
           });
-      });   
+      });
   });
 </script>
 </body>
