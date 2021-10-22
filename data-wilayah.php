@@ -1,7 +1,7 @@
 <?php
  include("connection.php");     
  switch ($_GET['jenis']) {
-  //ambil data kota / kabupaten
+
   case 'kota':
   $id_provinces = $_POST['id_provinces'];
   if($id_provinces == ''){
@@ -15,7 +15,6 @@
   }
   break;
 
-  //ambil data kecamatan
   case 'kecamatan':
   $id_regencies = $_POST['id_regencies'];
   if($id_regencies == ''){
@@ -29,7 +28,6 @@
   }
   break;
   
-  //ambil data kelurahan
   case 'kelurahan':
   $id_district = $_POST['id_district'];
   if($id_district == ''){
