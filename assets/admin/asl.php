@@ -199,7 +199,7 @@
                             <h4 class="modal-title">WAC PUSAT</h4>
                             </div>
                             <div class="modal-body">
-                              <form  action="" method="POST">
+                              <form  method="POST" class="formcust">
                                     <div class="form-group">
                                         <label for="nama">Nama</label>
                                         <input type="hidden" name="idcust" id="idcust">
@@ -368,6 +368,40 @@ x
                 // alert("1");
                 $('#save').prop('disabled', false);
                 $("#toko").val('');
+
+                $('#save').on('click', function(){
+                  var toko = $('#toko').val();
+                  if(toko != ""){
+                    var data = $('.formcust').serialize();
+                    $.ajax({
+                      type: 'POST',
+                      url: "booking.php",
+                      data: data,
+                      success: function() {
+                        // update customer order data
+                        $.ajax({
+                          url: "update_cust_order.php",
+                          type: "POST",
+                          cache: false,
+                          data:{
+                            id: $('#idcust').val(),
+                            toko: $('#toko').val(),
+                          },
+                          success: function(dataResult){
+                            var dataResult = JSON.parse(dataResult);
+                            if(dataResult.statusCode==200){
+                              $('#myModal').modal().hide();
+                              alert('Data updated successfully !');
+                              // location.reload();					
+                            }
+                          }
+                        });
+                      }
+                    });
+                  }else{
+                    toastr.error('Mohon isi nama toko!')
+                  }
+                });
               }else{
                 // alert("2");
                 toastr.error('Tidak bisa booking karena status booking telah dikonfirmasi.')
