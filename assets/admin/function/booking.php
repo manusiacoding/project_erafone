@@ -1,5 +1,5 @@
 <?php
-    include "../../connection.php";
+    include "../../../connection.php";
     $idcust=$_POST['idcust'];
     $toko=$_POST['toko'];
 

@@ -321,7 +321,7 @@ x
           "serverside": 'true',
           "lengthChange": false,
           "processing": true,
-          "ajax": "datatable.php",
+          "ajax": "function/datatable.php",
           "columns": [
               {data: 'id_customer'},
               {data: 'nama'},
@@ -348,7 +348,7 @@ x
           // alert($(this).val()); 
           var idcust = $(this).val();
           $.ajax({
-            url: 'ajaxrespon.php',
+            url: 'function/ajaxrespon.php',
             type: 'GET',
             dataType: 'json',
             data: {
@@ -376,12 +376,12 @@ x
                     var data = $('.formcust').serialize();
                     $.ajax({
                       type: 'POST',
-                      url: "booking.php",
+                      url: "function/booking.php",
                       data: data,
                       success: function() {
                         // update customer order data
                         $.ajax({
-                          url: "update_cust_order.php",
+                          url: "function/update_cust_order.php",
                           type: "POST",
                           cache: false,
                           data:{
