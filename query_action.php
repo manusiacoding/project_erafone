@@ -29,7 +29,7 @@ if (isset($_POST["login"])){
 			$_SESSION['kota'] = $data['city'];
 
 			// direct to sales dashboard
-			header("location:assets/sales/index.php");
+			header("location:assets/admin/index.php");
 
 		// if users login as user
 		}else{
