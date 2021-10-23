@@ -1,7 +1,7 @@
 <?php
     include "../../connection.php";
     $idcust = $_GET['id_customer'];
-    $query = mysqli_query($conn, "SELECT * FROM cust_order,asl WHERE cust_order.id_customer='$idcust'");
+    $query = mysqli_query($conn, "SELECT * FROM `cust_order` LEFT JOIN `asl` ON `cust_order`.`id_customer` = `asl`.`id_customer` WHERE `cust_order`.`id_customer` = '$idcust'");
 
     $data = mysqli_fetch_array($query);
     $customer = array(

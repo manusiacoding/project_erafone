@@ -391,7 +391,7 @@ x
                           success: function(dataResult){
                             var dataResult = JSON.parse(dataResult);
                             if(dataResult.statusCode==200){
-                              // $('#myModal').modal().hide();
+                              $('#myModal').modal('toggle');
                               toastr.success('Data berhasil dibooking.')
                               // location.reload();					
                             }
