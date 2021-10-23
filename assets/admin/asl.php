@@ -357,7 +357,6 @@ x
               {data: 'status'},
               {data: 'payment_status'},
               {data: 'transaction_status'}
-              // toastr.error('Tidak bisa booking karena status order telah di konfirmasi.')
           ]
       });
       var table = $('#example1').DataTable();
